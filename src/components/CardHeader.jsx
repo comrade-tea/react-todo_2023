@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 
 const CardHeader = ({todos, setTodos}) => {
     const checkboxSelectAll = useRef(null)

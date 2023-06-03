@@ -1,11 +1,8 @@
-import React, {useContext, useEffect, useState} from 'react'
-import {StatesContext} from "@/contexts/StatesContext.jsx";
-
+import {useEffect, useState} from 'react'
 import {v4 as uuidv4} from 'uuid';
 import Input from "@/form/Input.jsx";
 
-const CardFooter = () => {
-    const {todos, setTodos} = useContext(StatesContext);
+const CardFooter = ({addTodo}) => {
     const [inputValue, setInputValue] = useState("");
     const [inputIsValid, setInputIsValid] = useState(false);
     const [submitError, setSubmitError] = useState(false);
@@ -13,27 +10,25 @@ const CardFooter = () => {
     useEffect(() => {
         setInputIsValid(inputValue.length > 3)
     }, [inputValue]);
-    
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
         if (!inputIsValid) {
-            console.log("----", "invalid>.")
             setSubmitError(true);
             return
         }
 
-        setTodos([...todos, {
-            id: uuidv4(),
-            text: inputValue,
-            completed: false,
-            selected: false
-        }])
+        addTodo({id: uuidv4(), text: inputValue, completed: false, selected: false})
+        
+        clearInput()
+    };
 
+    function clearInput() {
         setInputIsValid(false);
         setSubmitError(false);
         setInputValue("")
-    };
+    }
 
     return (
         <div className="card-footer">
