@@ -11,8 +11,8 @@ const __dirname = path.dirname(__filename);
 // https://vitejs.dev/config/
 export default defineConfig({
     // base: "./",
-    // base: process.NODE_ENV === "production" ? "/vite-ts/" : "/",
-    publicDir: "dist",
+    base: process.NODE_ENV === "production" ? "/dist/" : "./",
+    // publicDir: "public",
     plugins: [react()],
     resolve: {
 
