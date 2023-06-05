@@ -1,12 +1,11 @@
 import {useEffect, useRef} from "react";
 
-const CardHeader = ({todos, setTodos}) => {
+const CardHeader = ({todos, setTodos, deleteByProp}) => {
     const checkboxSelectAll = useRef(null)
-
-
+    
     useEffect(() => {
         const selectedArr = todos.map(el => el.selected);
-        // мешанина из true/false ↓
+        // has true and false in the array ↓
         const isIndeterminate = [...new Set(selectedArr)].length === 2;
 
         checkboxSelectAll.current.indeterminate = isIndeterminate;
@@ -25,41 +24,38 @@ const CardHeader = ({todos, setTodos}) => {
             });
         })
     }
-
-    const deleteSelected = () => {
-        setTodos(prev => prev.filter(todo => !todo.selected))
-    };
-    const removeCompleted = () => {
-        setTodos(prev => prev.filter(todo => !todo.completed))
-    };
-
+    
     return (
         <div className="card-header">
-            <div className="row align-items-center">
+            <div className="row align-items-center justify-content-end">
                 <div className="col-auto">
-                    <label className="d-flex align-items-center">
+                    <div className="btn-group btn-group-sm">
+
+                        {/*<button className="btn btn-outline-success" onClick={() => deleteByProp("completed")}>*/}
+                        {/*    <i className="bi-shield-fill-check me-1"></i>*/}
+                        {/*    remove completed*/}
+                        {/*</button>*/}
+                        <button className="btn btn-danger"
+                                disabled={!todos.find(todo => todo.selected)}
+                                onClick={() => deleteByProp("selected")}>
+                            delete selected
+                            <i className="bi-trash ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <div className="col-auto">
+                    <label className="d-flex">
+                        <span className="me-2 user-select-none">select all</span>
                         <input
-                            className="form-check"
+                            id="selectAll"
+                            className="form-check-input"
                             type="checkbox"
                             ref={checkboxSelectAll}
                             defaultChecked={false}
-                            onChange={toggleSelectAll}/>
-                        <span className="ms-2">select all</span>
+                            onChange={toggleSelectAll}
+                            disabled={!todos.length}
+                        />
                     </label>
-                </div>
-
-                <div className="col-auto ms-auto">
-                    <div className="btn-group btn-group-sm">
-
-                        <button className="btn btn-outline-success" onClick={removeCompleted}>
-                            <i className="bi-shield-fill-check me-1"></i>
-                            remove completed
-                        </button>
-                        <button className="btn btn-danger" onClick={deleteSelected}>
-                            <i className="bi-trash me-1"></i>
-                            delete selected
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

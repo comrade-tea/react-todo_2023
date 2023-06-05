@@ -1,46 +1,52 @@
-import {useEffect, useState} from 'react'
+import {isValidElement, useEffect, useState} from 'react'
 import {v4 as uuidv4} from 'uuid';
 import Input from "@/form/Input.jsx";
 
 const CardFooter = ({addTodo}) => {
-    const [inputValue, setInputValue] = useState("");
-    const [inputIsValid, setInputIsValid] = useState(false);
-    const [submitError, setSubmitError] = useState(false);
+    const [todoInput, setTodoInput] = useState("");
+    const [validations, setValidations] = useState({
+        inputError: false,
+        submitError: false,
+    });
 
     useEffect(() => {
-        setInputIsValid(inputValue.length > 3)
-    }, [inputValue]);
+        setValidations(prev => {
+            return {...prev, inputError: todoInput.length <= 2}
+        })
+    }, [todoInput]);
+
+    const handleInput = (text) => {
+        setTodoInput(text);
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!inputIsValid) {
-            setSubmitError(true);
+        if (validations.inputError) {
+            setValidations(prev => {
+                return {...prev, submitError: true}
+            })
             return
         }
 
-        addTodo({id: uuidv4(), text: inputValue, completed: false, selected: false})
-        
-        clearInput()
+        addTodo(todoInput)
+
+        setTodoInput("")
+        setValidations({inputError: false, submitError: false});
     };
-
-    function clearInput() {
-        setInputIsValid(false);
-        setSubmitError(false);
-        setInputValue("")
-    }
-
+    
+    
+    
     return (
         <div className="card-footer">
             <form className="form" onSubmit={handleSubmit}>
                 <div className="row">
                     <div className="col">
                         <Input
-                            inputValue={inputValue}
-                            setInputValue={setInputValue}
-                            inputIsValid={inputIsValid}
-                            submitError={submitError}
-                            invalidFeedback="Your 'todo' should have more than 3 letters?.."
+                            todoInput={todoInput}
+                            handleInput={handleInput}
+                            validations={validations}
+                            invalidErrorText="Your 'todo' should have more than 2 letters?.."
                         />
                     </div>
 
