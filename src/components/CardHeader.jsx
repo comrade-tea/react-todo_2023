@@ -37,7 +37,6 @@ const CardHeader = ({todos, selectAllHandler, deleteByProp}) => {
                     <label className="d-flex">
                         <span className="me-2 user-select-none">select all</span>
                         <input
-                            id="selectAll"
                             className="form-check-input"
                             type="checkbox"
                             ref={checkboxSelectAll}

@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {StatesContext} from "@/contexts/StatesContext.jsx";
+import {CardContext} from "@/contexts/CardContext.jsx";
 import CardHeader from "@/components/CardHeader.jsx";
 import CardBody from "@/components/CardBody.jsx";
 import CardFooter from "@/components/CardFooter.jsx";
@@ -18,7 +18,7 @@ const Card = () => {
             selected: false,
         }])
     }
-    const editTodoHandler = (id, newText) => {
+    const editTodoText = (id, newText) => {
         setTodos(state => state.map(item => item.id === id ? {...item, text: newText} : item))
     }
     const toggleProp = (id, propName) => {
@@ -30,27 +30,25 @@ const Card = () => {
         }));
     }
     const selectAllHandler = (checkedBool) => {
-        setTodos((prev) => {
-            return prev.map(item => {
-                return {...item, selected: checkedBool}
-            });
-        })
+        setTodos(todos.map(item => {
+            return {...item, selected: checkedBool}
+        }))
     }
-    
+
     const overlayHandler = () => {
         setOverlayIsVisible(false);
-    } 
-    
+    }
+
     return (
-        <StatesContext.Provider value={{overlayIsVisible, setOverlayIsVisible, toggleProp}}>
+        <CardContext.Provider value={{overlayIsVisible, setOverlayIsVisible, editTodoText, toggleProp}}>
             <div className={`card ${overlayIsVisible ? "mode-edit" : ""}`} style={{maxWidth: "600px"}}>
                 <CardHeader todos={todos} selectAllHandler={selectAllHandler} deleteByProp={deleteByProp}/>
-                <CardBody todos={todos} editTodoHandler={editTodoHandler}/>
+                <CardBody todos={todos}/>
                 <CardFooter addTodo={addTodo}/>
-                
+
                 <div onClick={overlayHandler} className="card__overlay"></div>
             </div>
-        </StatesContext.Provider>
+        </CardContext.Provider>
     )
 }
 export default Card

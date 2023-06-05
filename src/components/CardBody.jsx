@@ -1,6 +1,4 @@
-import {useContext} from "react";
-import {StatesContext} from "@/contexts/StatesContext.jsx";
-import TodoItem from "@/components/TodoItem.jsx";
+import CardItem from "@/components/CardItem.jsx";
 
 const CardBody = ({todos, editTodoHandler}) => {
 
@@ -11,10 +9,11 @@ const CardBody = ({todos, editTodoHandler}) => {
                     ?
                     todos.map((todo) => (
                         <li key={todo.id}>
-                            <TodoItem todo={todo} editTodoHandler={editTodoHandler}/>
+                            <CardItem todo={todo}/>
                         </li>
                     ))
-                    : <em>nothing to do, add something <i className="bi-emoji-wink"></i></em>
+                    :
+                    <em>nothing to do, add something <i className="bi-emoji-wink"></i></em>
                 }
             </ul>
         </div>

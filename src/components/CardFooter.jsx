@@ -1,5 +1,4 @@
-import {isValidElement, useEffect, useState} from 'react'
-import {v4 as uuidv4} from 'uuid';
+import {useEffect, useState} from 'react'
 import Input from "@/components/form/Input.jsx";
  
 const CardFooter = ({addTodo}) => {
@@ -14,11 +13,7 @@ const CardFooter = ({addTodo}) => {
             return {...prev, inputError: todoInput.length <= 2}
         })
     }, [todoInput]);
-
-    const handleInput = (text) => {
-        setTodoInput(text);
-    }
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -34,8 +29,9 @@ const CardFooter = ({addTodo}) => {
         setTodoInput("")
         setValidations({inputError: false, submitError: false});
     };
-    
-    
+    const handleInput = (text) => {
+        setTodoInput(text);
+    }
     
     return (
         <div className="card-footer">
@@ -43,8 +39,8 @@ const CardFooter = ({addTodo}) => {
                 <div className="row">
                     <div className="col">
                         <Input
-                            todoInput={todoInput}
-                            handleInput={handleInput}
+                            inputText={todoInput}
+                            setInputText={handleInput}
                             validations={validations}
                             invalidErrorText="Your 'todo' should have more than 2 letters?.."
                         />

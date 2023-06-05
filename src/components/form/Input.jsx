@@ -1,17 +1,19 @@
-const Input = ({todoInput, handleInput, invalidErrorText, validations}) => {
-    const css = ["invalid-feedback"]
-
-    if (validations.submitError && validations.inputError)
-        css.push("d-block")
+const Input = ({inputText, setInputText, validations, invalidErrorText, autoFocus}) => {
+    const inputClasses = ["form-control"]
+    
+    if (Object.values(validations).every(hasError => hasError === true))
+        inputClasses.push("is-invalid")
+    
 
     return (
         <>
-            <input className="form-control"
-                   value={todoInput}
-                   onChange={(e) => handleInput(e.target.value)}
+            <input className={inputClasses.join(" ")}
+                   value={inputText}
+                   onChange={(e) => setInputText(e.target.value)}
+                   autoFocus={!!autoFocus}
                    type="text"/>
 
-            <div className={css.join(" ")}>{invalidErrorText}</div>
+            {invalidErrorText && <div className={"invalid-feedback"}>{invalidErrorText}</div>}
         </>
     )
 }
