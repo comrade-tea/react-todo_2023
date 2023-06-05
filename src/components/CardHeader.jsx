@@ -21,10 +21,13 @@ const CardHeader = ({todos, selectAllHandler, deleteByProp}) => {
                 <div className="col-auto">
                     <div className="btn-group btn-group-sm">
 
-                        {/*<button className="btn btn-outline-success" onClick={() => deleteByProp("completed")}>*/}
-                        {/*    <i className="bi-shield-fill-check me-1"></i>*/}
-                        {/*    remove completed*/}
-                        {/*</button>*/}
+                        <button className="btn btn-outline-success" 
+                                onClick={() => deleteByProp("completed")}
+                                disabled={!todos.find(todo => todo.completed)}
+                        >
+                            <i className="bi-shield-fill-check me-1"></i>
+                            remove completed
+                        </button>
                         <button className="btn btn-danger"
                                 disabled={!todos.find(todo => todo.selected)}
                                 onClick={() => deleteByProp("selected")}>

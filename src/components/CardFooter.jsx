@@ -13,6 +13,7 @@ const CardFooter = ({addTodo}) => {
             return {...prev, inputError: todoInput.length <= 2}
         })
     }, [todoInput]);
+
     
     const handleSubmit = (e) => {
         e.preventDefault();

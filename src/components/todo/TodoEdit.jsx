@@ -1,20 +1,44 @@
 import Input from "@/components/form/Input.jsx";
-import {useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {CardContext} from "@/contexts/CardContext.jsx";
 
-const TodoEdit = ({submitHandler, exitEditMode, value, updateValue}) => {
+const TodoEdit = ({todo, exitEditMode}) => {
+    const {editTodoText} = useContext(CardContext);
+    
+    const [editedText, setEditedText] = useState(todo.text);
     const [validations, setValidations] = useState({
         inputError: false,
         submitError: false,
     });
-    // add validation yak in footer
+
+    useEffect(() => {
+        setValidations(prev => {
+            return {...prev, inputError: editedText.length <= 2}
+        })
+    }, [editedText]);
+
+    const saveChanges = (e) => {
+        e.preventDefault();
+
+        if (validations.inputError) {
+            setValidations(prev => {
+                return {...prev, submitError: editedText.length <= 2}
+            })
+            return;
+        }
+
+        editTodoText(todo.id, editedText)
+        exitEditMode();
+    };
+    
     return (
-        <form onSubmit={(e) => submitHandler(e)}
+        <form onSubmit={(e) => saveChanges(e)}
               className="position-relative z-2">
 
             <div className="row">
                 <div className="col">
-                    <Input inputText={value}
-                           setInputText={updateValue}
+                    <Input inputText={editedText}
+                           setInputText={setEditedText}
                            validations={validations}
                            autoFocus/>
                 </div>
