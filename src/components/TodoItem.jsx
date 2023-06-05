@@ -2,40 +2,49 @@ import {useEffect, useContext, useState} from "react";
 import {StatesContext} from "@/contexts/StatesContext.jsx";
 
 const TodoItem = ({todo, editTodoHandler}) => {
-    const {todos, setTodos, setCardModeEdit} = useContext(StatesContext); // ?
+    const {overlayIsVisible, setOverlayIsVisible, toggleProp} = useContext(StatesContext); // ?
 
-    const [editMode, setEditMode] = useState(false);
     const [editedText, setEditedText] = useState(todo.text);
+    const [editMode, setEditMode] = useState(false);
 
     useEffect(() => {
-        setCardModeEdit(editMode)
-    }, [editMode]);
+        if (!overlayIsVisible)
+            setOverlayIsVisible(false)
+    }, [overlayIsVisible]);
 
 
-    // extract to "card" ↓
-    const toggleCompleted = () => {
-        setTodos(todos.map(item => item.id !== todo.id ? item : {...item, completed: !todo.completed}))
+    const saveChanges = (e) => {
+        e.preventDefault();
+
+        editTodoHandler(todo.id, editedText)
+        exitEditMode();
     };
-    const toggleSelected = () => {
-        setTodos(todos.map(item => item.id !== todo.id ? item : {...item, selected: !todo.selected}))
-    };
-
+    
+    const enterEditMode = () => {
+        setEditMode(true)
+        setOverlayIsVisible(true)
+    }
+    const exitEditMode = () => {
+        setEditMode(false)
+        setOverlayIsVisible(false)
+    }
+    
     return (
         <>
             {!editMode ? (
                     <div className="row align-items-baseline">
                         <div
-                            className={`d-flex align-items-baseline col ${todo.completed && "text-success text-decoration-line-through"}`}>
-                            <button className="d-flex" style={{all: "unset", cursor: "pointer"}} onClick={toggleCompleted}>
+                            className={`d-flex align-items-baseline col ${todo.completed ? "text-success text-decoration-line-through" : ""}`}>
+                            <button className="d-flex"
+                                    style={{all: "unset", cursor: "pointer"}}
+                                    onClick={() => toggleProp(todo.id, "completed")}>
                                 <i className="bi-check-circle h5"></i>
                                 <div className={`ms-2`}>
                                     {todo.text}
                                 </div>
                             </button>
 
-                            <button className="btn ms-auto ps-1" onClick={() => {
-                                setEditMode(true)
-                            }}>
+                            <button className="btn ms-auto ps-1" onClick={enterEditMode}>
                                 <i className="bi-pencil-square"></i>
                             </button>
                         </div>
@@ -43,7 +52,7 @@ const TodoItem = ({todo, editTodoHandler}) => {
                         <div className="col-auto">
                             <input className="form-check-input"
                                    checked={todo.selected}
-                                   onChange={toggleSelected}
+                                   onChange={() => toggleProp(todo.id, "selected")}
                                    type="checkbox"
                             />
                         </div>
@@ -51,12 +60,7 @@ const TodoItem = ({todo, editTodoHandler}) => {
                 )
                 : (
                     <form
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            
-                            editTodoHandler(todo.id, editedText)
-                            setEditMode(false)
-                        }}
+                        onSubmit={(e) => saveChanges(e)}
                         className="position-relative z-2">
                         <div className="row">
                             <div className="col">
@@ -75,7 +79,7 @@ const TodoItem = ({todo, editTodoHandler}) => {
                                     </button>
 
                                     <button className="btn btn-light"
-                                            onClick={() => setEditMode(false)}
+                                            onClick={exitEditMode}
                                             title="exit from editor mode" type="button">
                                         <i className="bi-arrow-clockwise"></i>
                                     </button>

@@ -8,7 +8,7 @@ import {v4 as uuidv4} from "uuid";
 
 const Card = () => {
     const [todos, setTodos] = useState([]);
-    const [cardModeEdit, setCardModeEdit] = useState(false);
+    const [overlayIsVisible, setOverlayIsVisible] = useState(false);
 
     const addTodo = (text) => {
         setTodos([...todos, {
@@ -21,21 +21,34 @@ const Card = () => {
     const editTodoHandler = (id, newText) => {
         setTodos(state => state.map(item => item.id === id ? {...item, text: newText} : item))
     }
-
+    const toggleProp = (id, propName) => {
+        setTodos(todos.map(item => item.id !== id ? item : {...item, [propName]: !item[propName]}))
+    };
     const deleteByProp = (prop) => {
         setTodos(todos.filter(item => {
             return item[prop] !== true;
         }));
     }
+    const selectAllHandler = (checkedBool) => {
+        setTodos((prev) => {
+            return prev.map(item => {
+                return {...item, selected: checkedBool}
+            });
+        })
+    }
+    
+    const overlayHandler = () => {
+        setOverlayIsVisible(false);
+    } 
     
     return (
-        <StatesContext.Provider value={{todos, setTodos, setCardModeEdit}}>
-            <div className={`card ${cardModeEdit && "mode-edit"}`} style={{maxWidth: "600px"}}>
-                <CardHeader todos={todos} setTodos={setTodos} deleteByProp={deleteByProp}/>
-                <CardBody editTodoHandler={editTodoHandler}/>
+        <StatesContext.Provider value={{overlayIsVisible, setOverlayIsVisible, toggleProp}}>
+            <div className={`card ${overlayIsVisible ? "mode-edit" : ""}`} style={{maxWidth: "600px"}}>
+                <CardHeader todos={todos} selectAllHandler={selectAllHandler} deleteByProp={deleteByProp}/>
+                <CardBody todos={todos} editTodoHandler={editTodoHandler}/>
                 <CardFooter addTodo={addTodo}/>
                 
-                <div className="card__overlay"></div>
+                <div onClick={overlayHandler} className="card__overlay"></div>
             </div>
         </StatesContext.Provider>
     )

@@ -1,6 +1,6 @@
 import {useEffect, useRef} from "react";
 
-const CardHeader = ({todos, setTodos, deleteByProp}) => {
+const CardHeader = ({todos, selectAllHandler, deleteByProp}) => {
     const checkboxSelectAll = useRef(null)
     
     useEffect(() => {
@@ -15,16 +15,6 @@ const CardHeader = ({todos, setTodos, deleteByProp}) => {
 
     }, [todos]);
 
-    const toggleSelectAll = (e) => {
-        const checked = e.target.checked;
-
-        setTodos(prev => {
-            return prev.map(item => {
-                return {...item, selected: checked}
-            });
-        })
-    }
-    
     return (
         <div className="card-header">
             <div className="row align-items-center justify-content-end">
@@ -52,9 +42,8 @@ const CardHeader = ({todos, setTodos, deleteByProp}) => {
                             type="checkbox"
                             ref={checkboxSelectAll}
                             defaultChecked={false}
-                            onChange={toggleSelectAll}
-                            disabled={!todos.length}
-                        />
+                            onChange={(e) => selectAllHandler(e.target.checked)}
+                            disabled={!todos.length}/>
                     </label>
                 </div>
             </div>

@@ -2,8 +2,7 @@ import {useContext} from "react";
 import {StatesContext} from "@/contexts/StatesContext.jsx";
 import TodoItem from "@/components/TodoItem.jsx";
 
-const CardBody = ({editTodoHandler}) => {
-    const {todos, setTodos} = useContext(StatesContext);
+const CardBody = ({todos, editTodoHandler}) => {
 
     return (
         <div className="card-body">
