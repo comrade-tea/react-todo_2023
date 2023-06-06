@@ -10,8 +10,8 @@ const __dirname = path.dirname(__filename);
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    base: '',
-    // base: process.NODE_ENV === "production" ? "/react-todo_2023/" : "/",
+    mode: "production",
+    base: process.NODE_ENV === "production" ? "/react-todo_2023/" : "/",
     // publicDir: "public",
     plugins: [react()],
     resolve: {
