@@ -1,8 +1,8 @@
 import {useEffect} from "react";
 
-const Input = ({inputText, setInputText, validations, invalidErrorText, autoFocus}) => {
+const Input = ({inputText, setInputText, validations, invalidErrorText, autoFocus, placeholder}) => {
     const inputClasses = ["form-control"]
-
+    
     if (Object.values(validations).every(hasError => hasError === true))
         inputClasses.push("is-invalid")
     
@@ -12,7 +12,9 @@ const Input = ({inputText, setInputText, validations, invalidErrorText, autoFocu
                    value={inputText}
                    onChange={(e) => setInputText(e.target.value)}
                    autoFocus={!!autoFocus}
-                   type="text"/>
+                   type="text"
+                   placeholder={placeholder}
+            />
 
             {invalidErrorText && <div className={"invalid-feedback"}>{invalidErrorText}</div>}
         </>

@@ -44,6 +44,7 @@ const CardFooter = ({addTodo}) => {
                             setInputText={handleInput}
                             validations={validations}
                             invalidErrorText="Your 'todo' should have more than 2 letters?.."
+                            placeholder="Enter task here"
                         />
                     </div>
 
