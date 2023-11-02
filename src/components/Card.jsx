@@ -39,9 +39,13 @@ const Card = () => {
         setOverlayIsVisible(false);
     }
 
+    const onClick = () => {
+        // console.log("----", "??")
+    };
+
     return (
         <CardContext.Provider value={{overlayIsVisible, setOverlayIsVisible, editTodoText, toggleProp}}>
-            <div className={`card ${overlayIsVisible ? "mode-edit" : ""}`} style={{maxWidth: "600px"}}>
+            <div className={`card ${overlayIsVisible ? "mode-edit" : ""}`} onClick={onClick} style={{maxWidth: "600px"}}>
                 <CardHeader todos={todos} selectAllHandler={selectAllHandler} deleteByProp={deleteByProp}/>
                 <CardBody todos={todos}/>
                 <CardFooter addTodo={addTodo}/>

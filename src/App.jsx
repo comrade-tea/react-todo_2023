@@ -13,9 +13,9 @@ function App() {
                                 <i className="bi-heartbreak-fill me-2"></i> no logo
                             </div>
 
-                            <div className="col-auto  ms-auto">
+                            {/*<div className="col-auto  ms-auto">
                                 <em>there will be nav with other projects</em>
-                            </div>
+                            </div>*/}
                         </div>
                     </div>
                 </div>
@@ -37,19 +37,24 @@ function App() {
                         <li><b>buttons</b> are locked if there is no actions for them</li>
                         <li><b>overlay</b> in editing mode, and it can be closed by clicking on the overlay</li>
                     </ul>
-
+                    
                     <Card/>
                 </div>
             </main>
 
             <footer className="py-3 bg-dark text-white">
                 <div className="container">
-                    <div className="row gy-1 justify-content-between">
+                    <div className="row gy-1 align-items-center justify-content-between">
                         <div className="col-auto">
-                            <div>2023 - ∞</div>
+                            <div>
+                                <a className="link-info">
+                                    <i className="bi-github fs-5 me-2"></i>
+                                    source of project
+                                </a>
+                            </div>
                         </div>
                         <div className="col-auto">
-                            created by <a className="link-info" href="https://comrade-tea.github.io/" target="_blank">comrade-tea</a>
+                            created by <a className="link-info" href="https://comrade-tea.github.io/" target="_blank" rel="noreferrer">comrade-tea</a>
                         </div>
                     </div>
                 </div>

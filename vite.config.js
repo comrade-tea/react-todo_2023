@@ -11,12 +11,11 @@ const __dirname = path.dirname(__filename);
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react()],
-    base: "/react-todo_2023/",
     resolve: {
-
+        
         alias: {
             '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
-            "@": resolve(__dirname, "./src")
-        }
-    }
+            "@": resolve(__dirname, "./src"),
+        },
+    },
 })
