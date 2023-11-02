@@ -47,7 +47,7 @@ function App() {
                     <div className="row gy-1 align-items-center justify-content-between">
                         <div className="col-auto">
                             <div>
-                                <a className="link-info">
+                                <a className="link-info" href="https://github.com/comrade-tea/react-todo_2023" target="_blank" rel="noreferrer">
                                     <i className="bi-github fs-5 me-2"></i>
                                     source of project
                                 </a>
